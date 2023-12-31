@@ -1,0 +1,15 @@
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/bin/Debug/net7.0/Fitness.Infra.deps.json
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/bin/Debug/net7.0/Fitness.Infra.dll
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/bin/Debug/net7.0/Fitness.Infra.pdb
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/obj/Debug/net7.0/Fitness.Infra.csproj.AssemblyReference.cache
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/obj/Debug/net7.0/Fitness.Infra.GeneratedMSBuildEditorConfig.editorconfig
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/obj/Debug/net7.0/Fitness.Infra.AssemblyInfoInputs.cache
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/obj/Debug/net7.0/Fitness.Infra.AssemblyInfo.cs
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/obj/Debug/net7.0/Fitness.Infra.csproj.CoreCompileInputs.cache
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/obj/Debug/net7.0/Fitness.Infra.dll
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/obj/Debug/net7.0/refint/Fitness.Infra.dll
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/obj/Debug/net7.0/Fitness.Infra.pdb
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/obj/Debug/net7.0/ref/Fitness.Infra.dll
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/bin/Debug/net7.0/Fitness.Domain.dll
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/bin/Debug/net7.0/Fitness.Domain.pdb
+/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/obj/Debug/net7.0/Fitness.Infra.csproj.CopyComplete

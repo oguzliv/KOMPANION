@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "mRahbGIdf9D4IT+ueqSQPdaM2tD2OTmJZ+dXUqe3OTCkYNASM0m1m2rD/zCDB0CbKsgvtMPow4Q5WPC1E+OUMA==",
+  "success": true,
+  "projectFilePath": "/Users/oguzliv/Desktop/DOTNET/KOMPANION/Fitness.Infra/Fitness.Infra.csproj",
+  "expectedPackageFiles": [
+    "/Users/oguzliv/.nuget/packages/microsoft.extensions.configuration/8.0.0/microsoft.extensions.configuration.8.0.0.nupkg.sha512",
+    "/Users/oguzliv/.nuget/packages/microsoft.extensions.configuration.abstractions/8.0.0/microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
+    "/Users/oguzliv/.nuget/packages/microsoft.extensions.logging.abstractions/7.0.1/microsoft.extensions.logging.abstractions.7.0.1.nupkg.sha512",
+    "/Users/oguzliv/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
+    "/Users/oguzliv/.nuget/packages/mysqlconnector/2.3.3/mysqlconnector.2.3.3.nupkg.sha512"
+  ],
+  "logs": []
+}
