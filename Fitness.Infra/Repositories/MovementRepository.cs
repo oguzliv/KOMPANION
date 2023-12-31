@@ -36,9 +36,20 @@ namespace Fitness.Infra.Repositories
             }
         }
 
-        public Task<Movement> Delete(Movement entity)
+        public async Task<int> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            using (MySqlConnection mysql = new MySqlConnection(_connString))
+            {
+                await mysql.OpenAsync();
+
+                using (MySqlCommand cmd = new MySqlCommand("delete_movement", mysql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@p_id", id);
+
+                    return await cmd.ExecuteNonQueryAsync();
+                }
+            }
         }
 
         public async Task<IEnumerable<Movement>> Get()

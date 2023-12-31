@@ -10,7 +10,7 @@ namespace Fitness.Infra.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Workout> Delete(Workout entity)
+        public Task<int> Delete(Guid id)
         {
             throw new NotImplementedException();
         }

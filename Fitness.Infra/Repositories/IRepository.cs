@@ -8,6 +8,6 @@ namespace Fitness.Infra.Repositories
         Task<T> GetById(Guid id);
         Task<IEnumerable<T>> Get();
         Task<int> Update(T entity);
-        Task<T> Delete(T entity);
+        Task<int> Delete(Guid id);
     }
 }

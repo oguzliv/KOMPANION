@@ -50,7 +50,7 @@ namespace Fitness.Infra.Repositories
             }
         }
 
-        public Task<User> Delete(User entity)
+        public Task<int> Delete(Guid id)
         {
             throw new NotImplementedException();
         }

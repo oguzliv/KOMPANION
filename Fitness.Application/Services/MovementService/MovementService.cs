@@ -32,6 +32,7 @@ namespace Fitness.Application.Services.MovementService
             {
                 response.Errors.Append(MovementError.MovementAlreadyExists);
                 response.IsSuccess = false;
+                return response;
             }
 
             movement = _mapper.Map<Movement>(movementDto);
@@ -45,6 +46,17 @@ namespace Fitness.Application.Services.MovementService
             response.IsSuccess = true;
 
             return response;
+        }
+
+        public async Task<bool> DeleteMovement(Guid id)
+        {
+            var movement = await _movementRepository.GetById(id);
+            if (movement == null) return false;
+
+            await _movementRepository.Delete(id);
+
+            return true;
+
         }
 
         public async Task<Movement> GetMovementByName(string name)
@@ -66,10 +78,11 @@ namespace Fitness.Application.Services.MovementService
             {
                 response.Errors.Append(MovementError.MovementNotExists);
                 response.IsSuccess = false;
+                return response;
             }
 
-            movement = _mapper.Map<Movement>(movementUpdateDto);
-            // movement.Id = Guid.NewGuid();
+            movement.Name = movementUpdateDto.Name;
+            movement.MuscleGroup = movementUpdateDto.MuscleGroup.ToString();
             movement.UpdatedAt = DateTime.UtcNow;
             movement.UpdatedBy = CurrentUserId;
 

@@ -9,7 +9,7 @@ namespace Fitness.Application.Services.MovementService
         Task<Response> CreateMovement(MovementDto movementDto);
         Task<Response> UpdateMovement(MovementUpdateDto movementUpdateDto);
         // Task<object> UpdateAdmin(Guid id, UserDto customer);
-        // Task<bool> DeleteUser(Guid id);
+        Task<bool> DeleteMovement(Guid id);
         // Task<object> GetUserById(Guid id);
         Task<Movement> GetMovementByName(string name);
         // Task<User> GetUserByEmail(string email);

@@ -37,5 +37,13 @@ namespace Fitness.Api.Controllers
             var result = await _movementService.UpdateMovement(movementUpdateDto);
             return Ok(result);
         }
+
+        [HttpDelete]
+        [Authorize]
+        public async Task<ActionResult> Delete([FromQuery] Guid id)
+        {
+            var result = await _movementService.DeleteMovement(id);
+            return Ok(result);
+        }
     }
 }
