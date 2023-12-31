@@ -1,7 +1,15 @@
+using Fitness.Application.Abstractions.Response;
+using Fitness.Application.Models.WorkoutModels.WorkoutRequests;
+using Fitness.Domain.Entities;
+
 namespace Fitness.Application.Services.WorkoutService
 {
-    public class IWorkoutService
+    public interface IWorkoutService
     {
-        
+        Task<Response> CreateWorkout(CreateWorkoutRequest workoutDto);
+        Task<Response> UpdateWorkout(UpdateWorkoutRequest WorkoutUpdateDto);
+        Task<bool> DeleteWorkout(Guid id);
+        // Task<Workout> GetWorkoutByName(string name);
+        Task<IEnumerable<Workout>> GetWorkouts();
     }
 }

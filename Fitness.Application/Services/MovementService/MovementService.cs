@@ -7,7 +7,6 @@ using Fitness.Domain.Entities;
 using Fitness.Domain.Errors;
 using Fitness.Infra.Repositories;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Fitness.Application.Services.MovementService
 {
@@ -23,7 +22,7 @@ namespace Fitness.Application.Services.MovementService
             CurrentUserId = Guid.Parse(context.HttpContext.User.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Sid).Value);
         }
 
-        public async Task<Response> CreateMovement(MovementDto movementDto)
+        public async Task<Response> CreateMovement(MovementCreateDto movementDto)
         {
             CreateMovementResponse response = new CreateMovementResponse();
             var movement = await _movementRepository.GetByName(movementDto.Name);
