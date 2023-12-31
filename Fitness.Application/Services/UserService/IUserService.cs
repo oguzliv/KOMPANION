@@ -1,4 +1,4 @@
-using Fitness.Application.Models.UserModels;
+using Fitness.Application.Models.UserModels.UserRequest;
 using Fitness.Domain.Entites;
 
 namespace Fitness.Application.Services.UserService

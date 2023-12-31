@@ -1,5 +1,5 @@
 using AutoMapper;
-using Fitness.Application.Models.UserModels;
+using Fitness.Application.Models.UserModels.UserRequest;
 using Fitness.Domain.Entites;
 using Fitness.Domain.Errors;
 using Fitness.Infra.Repositories;

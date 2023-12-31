@@ -1,5 +1,5 @@
 using Fitness.Application.Helpers;
-using Fitness.Application.Models.UserModels;
+using Fitness.Application.Models.UserModels.UserRequest;
 using Fitness.Application.Services.UserService;
 using Fitness.Application.Validators.UserValidators;
 using Fitness.Domain.Errors;
@@ -40,7 +40,7 @@ namespace Fitness.Api.Controllers
             }
         }
 
-        [HttpPost("register")]
+        [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] LoginDto loginDto)
         {
             var validate = _loginDtoValidator.Validate(loginDto);

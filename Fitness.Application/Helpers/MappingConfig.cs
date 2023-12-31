@@ -1,5 +1,5 @@
 using AutoMapper;
-using Fitness.Application.Models.User;
+using Fitness.Application.Models.UserModels.UserRequest;
 using Fitness.Domain.Entites;
 
 namespace Fitness.Application.Helpers

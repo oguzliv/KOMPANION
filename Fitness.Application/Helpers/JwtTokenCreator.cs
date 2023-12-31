@@ -14,6 +14,7 @@ namespace Fitness.Application.Helpers
             {
                 new(ClaimTypes.NameIdentifier, user.Username),
                 new(JwtRegisteredClaimNames.Jti, user.Id.ToString()),
+                new(ClaimTypes.NameIdentifier, user.Email),
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("JWT:Secret")!.Value));

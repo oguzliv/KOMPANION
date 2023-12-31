@@ -88,6 +88,9 @@ namespace Fitness.Infra.Repositories
                                 return new User
                                 {
                                     Email = reader["Email"].ToString()!,
+                                    Password = reader["Password"].ToString()!,
+                                    Username = reader["Username"].ToString()!,
+                                    Id = Guid.Parse(reader["Id"].ToString()!),
                                     // Add other properties as needed
                                 };
                             }
