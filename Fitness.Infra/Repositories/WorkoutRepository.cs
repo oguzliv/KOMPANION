@@ -5,7 +5,7 @@ namespace Fitness.Infra.Repositories
 {
     public class WorkoutRepository : IRepository<Workout>
     {
-        public Task<Workout> Create(Workout entity)
+        public Task<int> Create(Workout entity)
         {
             throw new NotImplementedException();
         }
@@ -25,7 +25,7 @@ namespace Fitness.Infra.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Workout> Update(Workout entity)
+        public Task<int> Update(Workout entity)
         {
             throw new NotImplementedException();
         }

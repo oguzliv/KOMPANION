@@ -7,7 +7,7 @@ namespace Fitness.Application.Services.MovementService
     public interface IMovementService
     {
         Task<Response> CreateMovement(MovementDto movementDto);
-        // Task<object> UpdateUser(Guid id, CustomerUpdateDto user);
+        Task<Response> UpdateMovement(MovementUpdateDto movementUpdateDto);
         // Task<object> UpdateAdmin(Guid id, UserDto customer);
         // Task<bool> DeleteUser(Guid id);
         // Task<object> GetUserById(Guid id);

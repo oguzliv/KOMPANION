@@ -34,7 +34,7 @@ namespace Fitness.Api.Controllers
             {
                 var result = await _userService.CreateUser(registerDto);
                 if (result.Errors.Any())
-                    return NotFound(result);
+                    return BadRequest(result);
                 return Ok(result);
             }
             else

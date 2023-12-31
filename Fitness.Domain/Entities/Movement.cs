@@ -5,8 +5,8 @@ namespace Fitness.Domain.Entities
 {
     public class Movement : Entity
     {
-        public String Name { get; set; } = null!;
-        public MuscleGroup MuscleGroup { get; set; }
+        public string Name { get; set; } = null!;
+        public string MuscleGroup { get; set; }
         public IEnumerable<Workout> Workouts { get; set; } = null!;
     }
 }

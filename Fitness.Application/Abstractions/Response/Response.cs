@@ -4,7 +4,7 @@ namespace Fitness.Application.Abstractions.Response
 {
     public abstract class Response
     {
-        public IEnumerable<Error> Errors { get; set; } = null!;
+        public IList<Error> Errors { get; set; } = new List<Error>();
         public bool IsSuccess { get; set; }
         public object Data { get; set; } = null!;
     }

@@ -3,6 +3,7 @@ using AutoMapper;
 using Fitness.Application.Abstractions.Response;
 using Fitness.Application.Models.UserModels.UserRequest;
 using Fitness.Application.Models.UserModels.UserResponses;
+using Fitness.Domain.Abstractions;
 using Fitness.Domain.Entites;
 using Fitness.Domain.Errors;
 using Fitness.Infra.Repositories;
@@ -21,14 +22,14 @@ namespace Fitness.Application.Services.UserService
         }
         public async Task<Response> CreateUser(RegisterDto user)
         {
-            LoginResponse response = new LoginResponse();
+            RegisterResponse response = new RegisterResponse();
             var _user = await _userRepository.GetByEmail(user.Email);
 
             if (_user == null)
             {
                 _user = _mapper.Map<User>(user);
                 _user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-                _user.Role = Domain.Enums.Role.User;
+                _user.Role = Domain.Enums.Role.User.ToString();
                 _user.CreatedAt = DateTime.UtcNow;
                 _user.Id = Guid.NewGuid();
 
@@ -39,7 +40,7 @@ namespace Fitness.Application.Services.UserService
             else
             {
                 response.IsSuccess = false;
-                response.Errors.Append(UserErrors.UserAlreadyExists);
+                response.Errors.Add(UserErrors.UserAlreadyExists);
             }
 
             return response;

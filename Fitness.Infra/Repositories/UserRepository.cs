@@ -103,7 +103,7 @@ namespace Fitness.Infra.Repositories
             }
 
         }
-        public Task<User> Update(User entity)
+        public Task<int> Update(User entity)
         {
             throw new NotImplementedException();
         }

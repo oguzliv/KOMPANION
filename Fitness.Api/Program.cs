@@ -23,6 +23,9 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using Fitness.Application.Validators.UserValidators;
 using Fitness.Api.Middlewares;
+using Microsoft.Extensions.Options;
+using Fitness.Application.Services.MovementService;
+using Fitness.Application.Services.WorkoutService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +45,20 @@ builder.Services.AddSwaggerGen(options =>
         BearerFormat = "JWT",
         Scheme = "Bearer"
     });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
 });
 
 builder.Services.AddMySqlDataSource(builder.Configuration.GetConnectionString("DefaultConnection")!);
@@ -55,9 +72,8 @@ builder.Services.AddScoped<JwtTokenCreator>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IUserService, UserService>();
-// builder.Services.AddScoped<IBookService, BookService>();
-// builder.Services.AddScoped<IRecommendationService, RecommendationService>();
-// builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IMovementService, MovementService>();
+builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<MovementRepository>();

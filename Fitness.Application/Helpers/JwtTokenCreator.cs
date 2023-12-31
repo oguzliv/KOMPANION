@@ -15,7 +15,7 @@ namespace Fitness.Application.Helpers
             List<Claim> claims = new List<Claim>
             {
                 new(ClaimTypes.NameIdentifier, user.Username),
-                new(JwtRegisteredClaimNames.Jti, user.Id.ToString()),
+                new(JwtRegisteredClaimNames.Sid, user.Id.ToString()),
                 new(ClaimTypes.NameIdentifier, user.Email),
             };
 

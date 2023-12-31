@@ -6,9 +6,9 @@ namespace Fitness.Domain.Entites;
 
 public class User : Entity
 {
-    public String Username { get; set; } = null!;
-    public String Email { get; set; } = null!;
-    public Role Role { get; set; }
+    public string Username { get; set; } = null!;
+    public string Email { get; set; } = null!;
+    public string Role { get; set; } = null!;
     [JsonIgnore]
-    public String Password { get; set; } = null!;
+    public string Password { get; set; } = null!;
 }
