@@ -3,17 +3,13 @@ using FluentValidation;
 
 namespace Fitness.Application.Validators.UserValidators
 {
-    public class RegisterDtoValidator : AbstractValidator<RegisterDto>
+    public class LoginDtoValidator : AbstractValidator<LoginDto>
     {
-        public RegisterDtoValidator()
+        public LoginDtoValidator()
         {
             RuleFor(dto => dto.Email)
             .NotEmpty().WithMessage("Email is required.")
             .EmailAddress().WithMessage("Invalid email address.");
-
-            RuleFor(dto => dto.Username)
-                .NotEmpty().WithMessage("Username is required.")
-                .MinimumLength(5).WithMessage("Username must be at least 5 characters long.");
 
             RuleFor(dto => dto.Password)
                 .NotEmpty().WithMessage("Password is required.")

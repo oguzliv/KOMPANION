@@ -1,4 +1,5 @@
-using Fitness.Application.Models.User;
+using Fitness.Application.Helpers;
+using Fitness.Application.Models.UserModels;
 using Fitness.Application.Services.UserService;
 using Fitness.Application.Validators.UserValidators;
 using Fitness.Domain.Errors;
@@ -13,10 +14,14 @@ namespace Fitness.Api.Controllers
     {
         private readonly IUserService _userService;
         private readonly RegisterDtoValidator _registorDtoValidator;
-        public UserController(IUserService userService, RegisterDtoValidator registerDtoValidator)
+        private readonly LoginDtoValidator _loginDtoValidator;
+        private readonly IConfiguration _configuration;
+        public UserController(IUserService userService, RegisterDtoValidator registerDtoValidator, LoginDtoValidator loginDtoValidator, IConfiguration configuration)
         {
             _userService = userService;
             _registorDtoValidator = registerDtoValidator;
+            _loginDtoValidator = loginDtoValidator;
+            _configuration = configuration;
         }
         [HttpPost("register")]
         public async Task<ActionResult> Register([FromBody] RegisterDto registerDto)
@@ -35,11 +40,21 @@ namespace Fitness.Api.Controllers
             }
         }
 
-        // [HttpPost("login")]
-        // public async Task<ActionResult> Login([FromBody] LoginDto loginDto)
-        // {
-
-        // }
-
+        [HttpPost("register")]
+        public async Task<ActionResult> Login([FromBody] LoginDto loginDto)
+        {
+            var validate = _loginDtoValidator.Validate(loginDto);
+            if (validate.IsValid)
+            {
+                var result = await _userService.GetUserByEmail(loginDto.Email);
+                if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, result!.Password))
+                    return NotFound(result);
+                return Ok(JwtTokenCreator.TokenCreator(result, _configuration));
+            }
+            else
+            {
+                throw new ValidationException(validate.Errors);
+            }
+        }
     }
 }

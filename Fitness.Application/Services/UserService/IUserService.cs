@@ -1,4 +1,5 @@
-using Fitness.Application.Models.User;
+using Fitness.Application.Models.UserModels;
+using Fitness.Domain.Entites;
 
 namespace Fitness.Application.Services.UserService
 {
@@ -9,7 +10,7 @@ namespace Fitness.Application.Services.UserService
         // Task<object> UpdateAdmin(Guid id, UserDto customer);
         // Task<bool> DeleteUser(Guid id);
         // Task<object> GetUserById(Guid id);
-        // Task<object> GetUserByEmail(string email);
+        Task<User> GetUserByEmail(string email);
         // Task<object> GetUsers();
     }
 }

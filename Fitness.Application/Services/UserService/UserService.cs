@@ -1,5 +1,5 @@
 using AutoMapper;
-using Fitness.Application.Models.User;
+using Fitness.Application.Models.UserModels;
 using Fitness.Domain.Entites;
 using Fitness.Domain.Errors;
 using Fitness.Infra.Repositories;
@@ -36,6 +36,11 @@ namespace Fitness.Application.Services.UserService
             {
                 return UserErrors.UserAlreadyExists;
             }
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await _userRepository.GetByEmail(email);
         }
     }
 }
