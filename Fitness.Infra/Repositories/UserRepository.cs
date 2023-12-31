@@ -15,9 +15,8 @@ namespace Fitness.Infra.Repositories
         {
             _connString = conf.GetConnectionString("DefaultConnection")!;
         }
-        public async Task<User> Create(User entity)
+        public async Task<int> Create(User entity)
         {
-            int result = 0;
             using (MySqlConnection connection = new MySqlConnection(_connString))
             {
                 await connection.OpenAsync();
@@ -36,18 +35,19 @@ namespace Fitness.Infra.Repositories
                     cmd.Parameters.AddWithValue("@p_role", entity.Role);
                     cmd.Parameters.AddWithValue("@p_password", entity.Password);
                     cmd.Parameters.AddWithValue("@p_id", entity.Id);
-                    try
-                    {
 
-                        result = await cmd.ExecuteNonQueryAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
+                    return await cmd.ExecuteNonQueryAsync();
+                    // try
+                    // {
+
+                    //     result = await cmd.ExecuteNonQueryAsync();
+                    // }
+                    // catch (Exception ex)
+                    // {
+                    //     throw new Exception(ex.Message);
+                    // }
                 }
             }
-            return result == 1 ? entity : null;
         }
 
         public Task<User> Delete(User entity)
@@ -80,30 +80,23 @@ namespace Fitness.Infra.Repositories
 
                     using (MySqlDataReader reader = await cmd.ExecuteReaderAsync())
                     {
-                        try
-                        {
-                            if (await reader.ReadAsync())
-                            {
-                                // Assuming User class has appropriate properties matching the table columns
-                                return new User
-                                {
-                                    Email = reader["Email"].ToString()!,
-                                    Password = reader["Password"].ToString()!,
-                                    Username = reader["Username"].ToString()!,
-                                    Id = Guid.Parse(reader["Id"].ToString()!),
-                                    // Add other properties as needed
-                                };
-                            }
-                            else
-                            {
-                                // Handle the case when the user is not found
-                                return null;
-                            }
 
-                        }
-                        catch (Exception ex)
+                        if (await reader.ReadAsync())
                         {
-                            throw new Exception(ex.Message);
+                            // Assuming User class has appropriate properties matching the table columns
+                            return new User
+                            {
+                                Email = reader["Email"].ToString()!,
+                                Password = reader["Password"].ToString()!,
+                                Username = reader["Username"].ToString()!,
+                                Id = Guid.Parse(reader["Id"].ToString()!),
+                                // Add other properties as needed
+                            };
+                        }
+                        else
+                        {
+                            // Handle the case when the user is not found
+                            return null;
                         }
                     }
                 }

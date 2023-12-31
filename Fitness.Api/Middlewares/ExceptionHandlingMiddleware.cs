@@ -21,6 +21,7 @@ namespace Fitness.Api.Middlewares
             try
             {
                 await _next(context);
+                //TODO: Implement request logging!
             }
             catch (Exception exception)
             {
@@ -61,7 +62,7 @@ namespace Fitness.Api.Middlewares
                     StatusCodes.Status500InternalServerError,
                     "ServerError",
                     "Server error",
-                    "An unexpected error has occurred",
+                    exception.Message,
                     null)
             };
         }

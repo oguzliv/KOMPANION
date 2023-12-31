@@ -50,6 +50,8 @@ IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddScoped<JwtTokenCreator>();
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IUserService, UserService>();

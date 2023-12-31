@@ -4,7 +4,7 @@ namespace Fitness.Infra.Repositories
 {
     public interface IRepository<T> where T : Entity
     {
-        Task<T> Create(T entity);
+        Task<int> Create(T entity);
         Task<T> GetById(Guid id);
         Task<IEnumerable<T>> Get();
         Task<T> Update(T entity);

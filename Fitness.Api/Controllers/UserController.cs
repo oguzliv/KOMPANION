@@ -2,6 +2,7 @@ using Fitness.Application.Helpers;
 using Fitness.Application.Models.UserModels.UserRequest;
 using Fitness.Application.Services.UserService;
 using Fitness.Application.Validators.UserValidators;
+using Fitness.Domain.Abstractions;
 using Fitness.Domain.Errors;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +17,14 @@ namespace Fitness.Api.Controllers
         private readonly RegisterDtoValidator _registorDtoValidator;
         private readonly LoginDtoValidator _loginDtoValidator;
         private readonly IConfiguration _configuration;
-        public UserController(IUserService userService, RegisterDtoValidator registerDtoValidator, LoginDtoValidator loginDtoValidator, IConfiguration configuration)
+        private readonly JwtTokenCreator _tokenCreator;
+        public UserController(IUserService userService, RegisterDtoValidator registerDtoValidator, LoginDtoValidator loginDtoValidator, IConfiguration configuration, JwtTokenCreator tokenCreator)
         {
             _userService = userService;
             _registorDtoValidator = registerDtoValidator;
             _loginDtoValidator = loginDtoValidator;
             _configuration = configuration;
+            _tokenCreator = tokenCreator;
         }
         [HttpPost("register")]
         public async Task<ActionResult> Register([FromBody] RegisterDto registerDto)
@@ -30,7 +33,7 @@ namespace Fitness.Api.Controllers
             if (validate.IsValid)
             {
                 var result = await _userService.CreateUser(registerDto);
-                if (result is UserErrors)
+                if (result.Errors.Any())
                     return NotFound(result);
                 return Ok(result);
             }
@@ -47,9 +50,11 @@ namespace Fitness.Api.Controllers
             if (validate.IsValid)
             {
                 var result = await _userService.GetUserByEmail(loginDto.Email);
+                if (result == null)
+                    return BadRequest(UserErrors.UserNotExists);
                 if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, result!.Password))
-                    return NotFound(result);
-                return Ok(JwtTokenCreator.TokenCreator(result, _configuration));
+                    return BadRequest(UserErrors.InvalidPassword);
+                return Ok(_tokenCreator.TokenCreator(result, _configuration.GetSection("JWT:Secret")!.Value));
             }
             else
             {

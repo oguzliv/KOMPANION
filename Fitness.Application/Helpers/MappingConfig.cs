@@ -1,6 +1,8 @@
 using AutoMapper;
+using Fitness.Application.Models.MovementModels.MovementRequests;
 using Fitness.Application.Models.UserModels.UserRequest;
 using Fitness.Domain.Entites;
+using Fitness.Domain.Entities;
 
 namespace Fitness.Application.Helpers
 {
@@ -33,6 +35,7 @@ namespace Fitness.Application.Helpers
                 // config.CreateMap<CustomerUpdateDto, User>().ReverseMap();
                 // config.CreateMap<BookDto, Book>().ReverseMap();
                 config.CreateMap<User, RegisterDto>().ReverseMap();
+                config.CreateMap<Movement, MovementDto>().ReverseMap();
             });
             return mappingConfig;
         }

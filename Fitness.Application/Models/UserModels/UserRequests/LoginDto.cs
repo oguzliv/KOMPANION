@@ -1,4 +1,10 @@
+using Fitness.Application.Abstractions.Request;
+
 namespace Fitness.Application.Models.UserModels.UserRequest
 {
-    public record LoginDto(string Email, string Password);
+    public class LoginDto : Request
+    {
+        public string Email { get; set; } = null!;
+        public string Password { get; set; } = null!;
+    }
 }
