@@ -1,5 +1,7 @@
 using Fitness.Application.Models.WorkoutModels.WorkoutRequests;
 using Fitness.Application.Services.WorkoutService;
+using Fitness.Application.Validators.UserValidators;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,23 +12,34 @@ namespace Fitness.Api.Controllers
     public class WorkoutController : ControllerBase
     {
         private readonly IWorkoutService _workoutService;
+        private readonly CreateWorkoutRequestValidator _createValidator;
+        private readonly UpdateWorkoutRequestValidator _updateValidtor;
 
-        public WorkoutController(IWorkoutService workoutService)
+        public WorkoutController(IWorkoutService workoutService, CreateWorkoutRequestValidator createValidtor, UpdateWorkoutRequestValidator updateValidtor)
         {
             _workoutService = workoutService;
+            _createValidator = createValidtor;
+            _updateValidtor = updateValidtor;
         }
         [Authorize]
         [HttpPost]
         public async Task<ActionResult> Create(CreateWorkoutRequest createWorkoutDto)
         {
-            var result = await _workoutService.CreateWorkout(createWorkoutDto);
-            return Ok(result);
+            var validate = _createValidator.Validate(createWorkoutDto);
+            if (validate.IsValid)
+            {
+                var result = await _workoutService.CreateWorkout(createWorkoutDto);
+                return Ok(result);
+            }
+            else
+            {
+                throw new ValidationException(validate.Errors);
+            }
         }
         [Authorize]
         [HttpGet]
         public async Task<ActionResult> Get([FromQuery] string muscleGroup, string duration, string level)
         {
-            //TODO: pagination & filtering according to Duration,Level,MuscleGroup
             var result = await _workoutService.GetFilteredWorkouts(level, duration, muscleGroup);
             return Ok(result);
         }
@@ -35,15 +48,22 @@ namespace Fitness.Api.Controllers
         public async Task<ActionResult> GetById(Guid id)
         {
             var result = await _workoutService.GetWorkoutById(id);
-            //TODO: pagination & filtering according to Duration,Level,MuscleGroup
             return Ok(result);
         }
         [Authorize]
         [HttpPut]
         public async Task<ActionResult> Update(UpdateWorkoutRequest updateWorkoutRequest)
         {
-            var result = await _workoutService.UpdateWorkout(updateWorkoutRequest);
-            return Ok(result);
+            var validate = _updateValidtor.Validate(updateWorkoutRequest);
+            if (validate.IsValid)
+            {
+                var result = await _workoutService.UpdateWorkout(updateWorkoutRequest);
+                return Ok(result);
+            }
+            else
+            {
+                throw new ValidationException(validate.Errors);
+            }
 
         }
         [Authorize]

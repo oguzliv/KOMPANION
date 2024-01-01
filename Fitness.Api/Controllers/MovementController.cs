@@ -1,6 +1,8 @@
 using Fitness.Application.Models.MovementModels.MovementRequests;
 using Fitness.Application.Models.MovementModels.MovementResponses;
 using Fitness.Application.Services.MovementService;
+using Fitness.Application.Validators.UserValidators;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +13,14 @@ namespace Fitness.Api.Controllers
     public class MovementController : ControllerBase
     {
         private readonly IMovementService _movementService;
-        public MovementController(IMovementService movementService)
+        private readonly CreateMovementRequestValidator _createValidator;
+        private readonly UpdateMovementRequestValidator _updateValidator;
+        public MovementController(IMovementService movementService, CreateMovementRequestValidator createValidator, UpdateMovementRequestValidator updateValidator)
         {
             _movementService = movementService;
+            _createValidator = createValidator;
+            _updateValidator = updateValidator;
         }
-        // 1ccb0369-adff-4069-9e2b-b25cfd173125
         [HttpGet]
         [Authorize]
         public async Task<ActionResult> GetAll()
@@ -35,15 +40,31 @@ namespace Fitness.Api.Controllers
         [Authorize]
         public async Task<ActionResult> Create([FromBody] CreateMovementRequest movementDto)
         {
-            var result = await _movementService.CreateMovement(movementDto);
-            return Ok(result);
+            var validate = _createValidator.Validate(movementDto);
+            if (validate.IsValid)
+            {
+                var result = await _movementService.CreateMovement(movementDto);
+                return Ok(result);
+            }
+            else
+            {
+                throw new ValidationException(validate.Errors);
+            }
         }
         [HttpPut]
         [Authorize]
         public async Task<ActionResult> Update([FromBody] UpdateMovementRequest movementUpdateDto)
         {
-            var result = await _movementService.UpdateMovement(movementUpdateDto);
-            return Ok(result);
+            var validate = _updateValidator.Validate(movementUpdateDto);
+            if (validate.IsValid)
+            {
+                var result = await _movementService.UpdateMovement(movementUpdateDto);
+                return Ok(result);
+            }
+            else
+            {
+                throw new ValidationException(validate.Errors);
+            }
         }
 
         [HttpDelete]

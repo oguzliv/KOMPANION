@@ -26,6 +26,7 @@ using Fitness.Api.Middlewares;
 using Microsoft.Extensions.Options;
 using Fitness.Application.Services.MovementService;
 using Fitness.Application.Services.WorkoutService;
+using Fitness.Application.Models.MovementModels.MovementRequests;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -90,6 +91,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 
 builder.Services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateWorkoutRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateWorkoutRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateMovementRequest>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
