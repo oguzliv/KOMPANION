@@ -79,6 +79,14 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<MovementRepository>();
 builder.Services.AddScoped<WorkoutRepository>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+}); ;
+
 builder.Services.AddControllers();
 
 builder.Services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
@@ -120,5 +128,8 @@ app.UseEndpoints(endpoints =>
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
         });
+
+app.UseCors(options =>
+options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.Run();
