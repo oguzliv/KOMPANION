@@ -22,7 +22,7 @@ namespace Fitness.Application.Services.MovementService
             CurrentUserId = Guid.Parse(context.HttpContext.User.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Sid).Value);
         }
 
-        public async Task<Response> CreateMovement(MovementCreateDto movementDto)
+        public async Task<Response> CreateMovement(CreateMovementRequest movementDto)
         {
             CreateMovementResponse response = new CreateMovementResponse();
             var movement = await _movementRepository.GetByName(movementDto.Name);
@@ -68,7 +68,7 @@ namespace Fitness.Application.Services.MovementService
             return await _movementRepository.Get();
         }
 
-        public async Task<Response> UpdateMovement(MovementUpdateDto movementUpdateDto)
+        public async Task<Response> UpdateMovement(UpdateMovementRequest movementUpdateDto)
         {
             UpdateMovementResponse response = new UpdateMovementResponse();
             var movement = await _movementRepository.GetById(movementUpdateDto.Id);

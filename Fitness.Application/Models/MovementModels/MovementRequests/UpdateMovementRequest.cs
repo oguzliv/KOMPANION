@@ -1,6 +1,6 @@
 namespace Fitness.Application.Models.MovementModels.MovementRequests
 {
-    public class MovementUpdateDto : MovementCreateDto
+    public class UpdateMovementRequest : CreateMovementRequest
     {
         public Guid Id { get; set; }
     }

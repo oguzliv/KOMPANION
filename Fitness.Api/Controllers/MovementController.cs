@@ -25,14 +25,14 @@ namespace Fitness.Api.Controllers
         }
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> Create([FromBody] MovementDto movementDto)
+        public async Task<ActionResult> Create([FromBody] CreateMovementRequest movementDto)
         {
             var result = await _movementService.CreateMovement(movementDto);
             return Ok(result);
         }
         [HttpPut]
         [Authorize]
-        public async Task<ActionResult> Update([FromBody] MovementUpdateDto movementUpdateDto)
+        public async Task<ActionResult> Update([FromBody] UpdateMovementRequest movementUpdateDto)
         {
             var result = await _movementService.UpdateMovement(movementUpdateDto);
             return Ok(result);

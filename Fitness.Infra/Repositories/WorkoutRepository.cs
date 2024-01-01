@@ -13,15 +13,46 @@ namespace Fitness.Infra.Repositories
         {
             _connString = conf.GetConnectionString("DefaultConnection")!;
         }
-        public Task<int> Create(Workout entity)
+        public async Task<int> Create(Workout entity)
         {
-            // there are movement(id,createdBy,createdBy,updatedAt,updatedBy,muscleGroup) and workout(id,level,duration,)  
-            throw new NotImplementedException();
+            using (MySqlConnection connection = new MySqlConnection(_connString))
+            {
+                await connection.OpenAsync();
+
+                using (MySqlCommand cmd = new MySqlCommand("create_workout", connection))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    // Add parameters to the stored procedure
+                    cmd.Parameters.AddWithValue("@p_name", entity.Name);
+                    cmd.Parameters.AddWithValue("@p_createdAt", entity.CreatedAt);
+                    cmd.Parameters.AddWithValue("@p_createdBy", entity.CreatedBy);
+                    cmd.Parameters.AddWithValue("@p_updatedAt", entity.UpdatedAt);
+                    cmd.Parameters.AddWithValue("@p_updatedBy", entity.UpdatedBy);
+                    cmd.Parameters.AddWithValue("@p_movementIds", entity.Movements);
+                    cmd.Parameters.AddWithValue("@p_level", entity.Level.ToString());
+                    cmd.Parameters.AddWithValue("@p_duration", entity.Duration.ToString());
+                    cmd.Parameters.AddWithValue("@p_id", entity.Id);
+
+                    return await cmd.ExecuteNonQueryAsync();
+                }
+            }
         }
 
-        public Task<int> Delete(Guid id)
+        public async Task<int> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            using (MySqlConnection mysql = new MySqlConnection(_connString))
+            {
+                await mysql.OpenAsync();
+
+                using (MySqlCommand cmd = new MySqlCommand("delete_workout", mysql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@p_id", id);
+
+                    return await cmd.ExecuteNonQueryAsync();
+                }
+            }
         }
 
         public Task<IEnumerable<Workout>> Get()
@@ -29,9 +60,44 @@ namespace Fitness.Infra.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Workout> GetById(Guid id)
+        public async Task<Workout> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            using (MySqlConnection connection = new MySqlConnection(_connString))
+            {
+                await connection.OpenAsync();
+
+                using (MySqlCommand cmd = new MySqlCommand("get_workout_by_id", connection))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    // Add parameters to the stored procedure
+                    cmd.Parameters.AddWithValue("@p_id", id);
+
+                    using (MySqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        if (await reader.ReadAsync())
+                        {
+                            // Assuming User class has appropriate properties matching the table columns
+                            return new Workout
+                            {
+                                Id = Guid.Parse(reader["Id"].ToString()!),
+                                Name = reader["Name"].ToString()!,
+                                CreatedAt = (DateTime)reader["CreatedAt"],
+                                CreatedBy = Guid.Parse(reader["CreatedBy"].ToString()!),
+                                UpdatedAt = (DateTime)reader["UpdatedAt"],
+                                UpdatedBy = Guid.Parse(reader["UpdatedBy"].ToString()!)
+                                // Add other properties as needed
+                            };
+                        }
+                        else
+                        {
+                            // Handle the case when the user is not found
+                            return null;
+                        }
+                    }
+                }
+            }
         }
 
         public async Task<Workout> GetByName(string name)
@@ -57,7 +123,6 @@ namespace Fitness.Infra.Repositories
                             {
                                 Id = Guid.Parse(reader["Id"].ToString()!),
                                 Name = reader["Name"].ToString()!,
-                                // MuscleGroup = reader["MuscleGroup"].ToString()!,
                                 Level = reader["Level"].ToString()!,
                                 Duration = reader["Duration"].ToString()!,
                                 CreatedAt = (DateTime)reader["CreatedAt"],
@@ -76,10 +141,29 @@ namespace Fitness.Infra.Repositories
                 }
             }
         }
-        public Task<int> Update(Workout entity)
+        public async Task<int> Update(Workout entity)
         {
-            throw new NotImplementedException();
-        }
+            using (MySqlConnection connection = new MySqlConnection(_connString))
+            {
+                await connection.OpenAsync();
 
+                using (MySqlCommand cmd = new MySqlCommand("update_workout", connection))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    // Add parameters to the stored procedure
+                    cmd.Parameters.AddWithValue("@p_name", entity.Name);
+                    cmd.Parameters.AddWithValue("@p_updatedAt", entity.UpdatedAt);
+                    cmd.Parameters.AddWithValue("@p_updatedBy", entity.UpdatedBy);
+                    cmd.Parameters.AddWithValue("@p_movementIds", entity.Movements);
+                    cmd.Parameters.AddWithValue("@p_level", entity.Level.ToString());
+                    cmd.Parameters.AddWithValue("@p_duration", entity.Duration.ToString());
+                    cmd.Parameters.AddWithValue("@p_id", entity.Id);
+
+                    return await cmd.ExecuteNonQueryAsync();
+                }
+            }
+
+        }
     }
 }

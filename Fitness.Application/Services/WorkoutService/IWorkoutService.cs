@@ -7,7 +7,7 @@ namespace Fitness.Application.Services.WorkoutService
     public interface IWorkoutService
     {
         Task<Response> CreateWorkout(CreateWorkoutRequest workoutDto);
-        Task<Response> UpdateWorkout(UpdateWorkoutRequest WorkoutUpdateDto);
+        Task<Response> UpdateWorkout(UpdateWorkoutRequest workoutUpdateDto);
         Task<bool> DeleteWorkout(Guid id);
         // Task<Workout> GetWorkoutByName(string name);
         Task<IEnumerable<Workout>> GetWorkouts();
