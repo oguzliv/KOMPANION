@@ -9,7 +9,8 @@ namespace Fitness.Application.Services.WorkoutService
         Task<Response> CreateWorkout(CreateWorkoutRequest workoutDto);
         Task<Response> UpdateWorkout(UpdateWorkoutRequest workoutUpdateDto);
         Task<bool> DeleteWorkout(Guid id);
-        // Task<Workout> GetWorkoutByName(string name);
-        Task<IEnumerable<Workout>> GetWorkouts();
+        Task<Response> GetFilteredWorkouts(string level, string duration, string muscleGroup);
+        Task<Response> GetWorkoutById(Guid id);
+        Task<Response> GetWorkouts();
     }
 }

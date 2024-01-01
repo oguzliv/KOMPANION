@@ -59,9 +59,43 @@ namespace Fitness.Application.Services.WorkoutService
             return true;
         }
 
-        public Task<IEnumerable<Workout>> GetWorkouts()
+        public async Task<Response> GetWorkoutById(Guid id)
         {
-            throw new NotImplementedException();
+            GetWorkoutResponse response = new GetWorkoutResponse();
+            var workout = await _workoutRepository.GetById(id);
+            workout.Movements = await _workoutRepository.GetWorkoutMovements(id);
+
+            response.Data = workout;
+            response.MuscleGroups = workout.Movements.Select(m => m.MuscleGroup.ToString()).Distinct().ToList();
+            return response;
+        }
+
+        public async Task<Response> GetWorkouts()
+        {
+            GetWorkoutResponse response = new GetWorkoutResponse();
+            var workouts = await _workoutRepository.Get();
+
+            foreach (Workout workout in workouts)
+            {
+                workout.Movements = await _workoutRepository.GetWorkoutMovements(workout.Id);
+            }
+
+            response.Data = workouts;
+            return response;
+        }
+
+        public async Task<Response> GetFilteredWorkouts(string level, string duration, string muscleGroup)
+        {
+            GetWorkoutResponse response = new GetWorkoutResponse();
+            var workouts = await _workoutRepository.GeFiltered(duration, level, muscleGroup);
+
+            foreach (Workout workout in workouts)
+            {
+                workout.Movements = await _workoutRepository.GetWorkoutMovements(workout.Id);
+            }
+
+            response.Data = workouts;
+            return response;
         }
 
         public async Task<Response> UpdateWorkout(UpdateWorkoutRequest workoutUpdateDto)
@@ -79,7 +113,7 @@ namespace Fitness.Application.Services.WorkoutService
             workout.Name = workoutUpdateDto.Name;
             workout.Duration = workoutUpdateDto.Duration.ToString();
             workout.Level = workoutUpdateDto.Level.ToString();
-            workout.Movements = string.Join(",", workoutUpdateDto.Movements.Select(id => id.ToString()));
+            workout.Movements = (IList<Movement>)workoutUpdateDto.Movements;
             workout.UpdatedAt = DateTime.UtcNow;
             workout.UpdatedBy = CurrentUserId;
 

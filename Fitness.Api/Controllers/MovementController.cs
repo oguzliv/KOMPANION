@@ -15,12 +15,20 @@ namespace Fitness.Api.Controllers
         {
             _movementService = movementService;
         }
-
+        // 1ccb0369-adff-4069-9e2b-b25cfd173125
         [HttpGet]
         [Authorize]
         public async Task<ActionResult> GetAll()
         {
             var result = await _movementService.GetMovements();
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        [Authorize]
+        public async Task<ActionResult> GetById(Guid id)
+        {
+            var result = await _movementService.GetMovementById(id);
             return Ok(result);
         }
         [HttpPost]

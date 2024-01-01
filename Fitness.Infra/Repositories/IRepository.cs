@@ -6,7 +6,7 @@ namespace Fitness.Infra.Repositories
     {
         Task<int> Create(T entity);
         Task<T> GetById(Guid id);
-        Task<IEnumerable<T>> Get();
+        Task<IList<T>> Get();
         Task<int> Update(T entity);
         Task<int> Delete(Guid id);
     }

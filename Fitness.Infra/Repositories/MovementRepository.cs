@@ -52,7 +52,7 @@ namespace Fitness.Infra.Repositories
             }
         }
 
-        public async Task<IEnumerable<Movement>> Get()
+        public async Task<IList<Movement>> Get()
         {
             var Movements = new List<Movement>();
             using (MySqlConnection connection = new MySqlConnection(_connString))

@@ -24,10 +24,19 @@ namespace Fitness.Api.Controllers
         }
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Get([FromQuery] string muscleGroup, string duration, string level)
         {
             //TODO: pagination & filtering according to Duration,Level,MuscleGroup
-            return Ok();
+            var result = await _workoutService.GetFilteredWorkouts(level, duration, muscleGroup);
+            return Ok(result);
+        }
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(Guid id)
+        {
+            var result = await _workoutService.GetWorkoutById(id);
+            //TODO: pagination & filtering according to Duration,Level,MuscleGroup
+            return Ok(result);
         }
         [Authorize]
         [HttpPut]

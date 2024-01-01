@@ -10,6 +10,7 @@ namespace Fitness.Application.Services.MovementService
         Task<Response> UpdateMovement(UpdateMovementRequest movementUpdateDto);
         Task<bool> DeleteMovement(Guid id);
         Task<Movement> GetMovementByName(string name);
+        Task<Movement> GetMovementById(Guid id);
         Task<IEnumerable<Movement>> GetMovements();
     }
 }

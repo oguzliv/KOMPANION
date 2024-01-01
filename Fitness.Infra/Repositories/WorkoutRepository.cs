@@ -55,11 +55,81 @@ namespace Fitness.Infra.Repositories
             }
         }
 
-        public Task<IEnumerable<Workout>> Get()
+        public async Task<IList<Workout>> Get()
         {
-            throw new NotImplementedException();
+            List<Workout> Workouts = new List<Workout>();
+            using (MySqlConnection connection = new MySqlConnection(_connString))
+            {
+                await connection.OpenAsync();
+
+                using (MySqlCommand cmd = new MySqlCommand("get_workouts", connection))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    using (MySqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            // Assuming User class has appropriate properties matching the table columns
+                            Workouts.Add(new Workout
+                            {
+                                Id = Guid.Parse(reader["Id"].ToString()!),
+                                Name = reader["Name"].ToString()!,
+                                Duration = reader["Duration"].ToString()!,
+                                Level = reader["Level"].ToString()!,
+                                CreatedAt = (DateTime)reader["CreatedAt"],
+                                CreatedBy = Guid.Parse(reader["CreatedBy"].ToString()!),
+                                UpdatedAt = (DateTime)reader["UpdatedAt"],
+                                UpdatedBy = Guid.Parse(reader["UpdatedBy"].ToString()!)
+                                // Add other properties as needed
+                            });
+                        }
+                    }
+                }
+                return Workouts;
+            }
         }
 
+        public async Task<IList<Workout>> GeFiltered(string duration, string level, string muscleGroup)
+        {
+            List<Workout> Workouts = new List<Workout>();
+            using (MySqlConnection connection = new MySqlConnection(_connString))
+            {
+                await connection.OpenAsync();
+
+                using (MySqlCommand cmd = new MySqlCommand("get_workouts", connection))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@p_level", duration);
+                    cmd.Parameters.AddWithValue("@p_duration", level);
+                    cmd.Parameters.AddWithValue("@p_muscleGroup", muscleGroup);
+
+                    using (MySqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            // Assuming User class has appropriate properties matching the table columns
+                            Workouts.Add(new Workout
+                            {
+                                Id = Guid.Parse(reader["Id"].ToString()!),
+                                Name = reader["Name"].ToString()!,
+                                Duration = reader["Duration"].ToString()!,
+                                Level = reader["Level"].ToString()!,
+                                CreatedAt = (DateTime)reader["CreatedAt"],
+                                CreatedBy = Guid.Parse(reader["CreatedBy"].ToString()!),
+                                UpdatedAt = (DateTime)reader["UpdatedAt"],
+                                UpdatedBy = Guid.Parse(reader["UpdatedBy"].ToString()!)
+                                // Add other properties as needed
+                            });
+                        }
+                    }
+                }
+                return Workouts;
+            }
+        }
         public async Task<Workout> GetById(Guid id)
         {
             using (MySqlConnection connection = new MySqlConnection(_connString))
@@ -75,7 +145,6 @@ namespace Fitness.Infra.Repositories
 
                     using (MySqlDataReader reader = await cmd.ExecuteReaderAsync())
                     {
-
                         if (await reader.ReadAsync())
                         {
                             // Assuming User class has appropriate properties matching the table columns
@@ -83,6 +152,8 @@ namespace Fitness.Infra.Repositories
                             {
                                 Id = Guid.Parse(reader["Id"].ToString()!),
                                 Name = reader["Name"].ToString()!,
+                                Duration = reader["Duration"].ToString()!,
+                                Level = reader["Level"].ToString()!,
                                 CreatedAt = (DateTime)reader["CreatedAt"],
                                 CreatedBy = Guid.Parse(reader["CreatedBy"].ToString()!),
                                 UpdatedAt = (DateTime)reader["UpdatedAt"],
@@ -100,6 +171,43 @@ namespace Fitness.Infra.Repositories
             }
         }
 
+        public async Task<IList<Movement>> GetWorkoutMovements(Guid id)
+        {
+            List<Movement> WorkoutMovements = new List<Movement>();
+            using (MySqlConnection connection = new MySqlConnection(_connString))
+            {
+                await connection.OpenAsync();
+
+                using (MySqlCommand cmd = new MySqlCommand("get_workout_movements", connection))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    // Add parameters to the stored procedure
+                    cmd.Parameters.AddWithValue("@p_id", id);
+
+                    using (MySqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            // Assuming User class has appropriate properties matching the table columns
+                            WorkoutMovements.Add(new Movement
+                            {
+                                Id = Guid.Parse(reader["Id"].ToString()!),
+                                Name = reader["Name"].ToString()!,
+                                MuscleGroup = reader["MuscleGroup"].ToString()!,
+                                CreatedAt = (DateTime)reader["CreatedAt"],
+                                CreatedBy = Guid.Parse(reader["CreatedBy"].ToString()!),
+                                UpdatedAt = (DateTime)reader["UpdatedAt"],
+                                UpdatedBy = Guid.Parse(reader["UpdatedBy"].ToString()!)
+                                // Add other properties as needed
+                            });
+                        }
+                    }
+                }
+                return WorkoutMovements;
+            }
+        }
         public async Task<Workout> GetByName(string name)
         {
             using (MySqlConnection connection = new MySqlConnection(_connString))
@@ -155,7 +263,7 @@ namespace Fitness.Infra.Repositories
                     cmd.Parameters.AddWithValue("@p_name", entity.Name);
                     cmd.Parameters.AddWithValue("@p_updatedAt", entity.UpdatedAt);
                     cmd.Parameters.AddWithValue("@p_updatedBy", entity.UpdatedBy);
-                    cmd.Parameters.AddWithValue("@p_movementIds", entity.Movements);
+                    cmd.Parameters.AddWithValue("@p_movementIds", string.Join(",", entity.Movements.Select(id => id.ToString())));
                     cmd.Parameters.AddWithValue("@p_level", entity.Level.ToString());
                     cmd.Parameters.AddWithValue("@p_duration", entity.Duration.ToString());
                     cmd.Parameters.AddWithValue("@p_id", entity.Id);

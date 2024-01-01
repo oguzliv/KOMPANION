@@ -55,7 +55,7 @@ namespace Fitness.Infra.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<User>> Get()
+        public Task<IList<User>> Get()
         {
             throw new NotImplementedException();
         }

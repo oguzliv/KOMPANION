@@ -58,6 +58,11 @@ namespace Fitness.Application.Services.MovementService
 
         }
 
+        public async Task<Movement> GetMovementById(Guid id)
+        {
+            return await _movementRepository.GetById(id);
+        }
+
         public async Task<Movement> GetMovementByName(string name)
         {
             return await _movementRepository.GetByName(name);

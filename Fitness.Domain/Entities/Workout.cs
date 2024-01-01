@@ -8,6 +8,6 @@ namespace Fitness.Domain.Entities
         public string Name { get; set; } = null!;
         public string Level { get; set; } = null!;
         public string Duration { get; set; } = null!;
-        public string Movements { get; set; } = null!;
+        public IList<Movement> Movements { get; set; } = null!;
     }
 }
