@@ -18,7 +18,8 @@ Antreman ve Hareketler arasında many-to-many bir ilişki olacak şekilde dizayn
 * GitHubdan kodları indirin.
 * Tüm  bağımlılıkları yüklemek için 'dotnet restore'yi çalıştırın.
 * MySQL kullanıcı bilgilerinizle uygulamayı bağlayın.
-* SQLScripts klasöründeki scripts.sql i çalıştırın
+* SQLScripts klasöründeki data.sql i çalıştırın
+* SQLScripts klasöründeki proc.sql dosyasındaki stored procedureları kendi veritabanınıza alın.
 * Uygulamayı debug modda ayağa kaldırdığınızda swagger sayfasını göreceksiniz. 
 
 ## Enpoints
