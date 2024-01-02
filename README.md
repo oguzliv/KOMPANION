@@ -23,7 +23,6 @@ Antreman ve Hareketler arasında many-to-many bir ilişki olacak şekilde dizayn
 * Uygulamayı debug modda ayağa kaldırdığınızda swagger sayfasını göreceksiniz. 
 
 ## Enpoints
-Yaratmaya karar verdim:
 * `/users`: Authenticationdan sorumlu. Bunu ayırmak daha doğru olabilirdir. Bunun dışında genel user CRUP işlemleri için geliştirilebilir.
 * `/movements` -> hareketlerden sorumlu. Http Kodları ile CRUD işlemlerini destekler. Authorization zorunlu.
 * `/workouts` -> antremanlardan sorumlu. Http methodlarıyla CRUD işlemlerini destkler. 
